@@ -1,3 +1,1 @@
-# mbd
-## conditioning
-### asymmetric
+# mbd:conditioning:asymmetric
