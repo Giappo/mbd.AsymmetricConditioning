@@ -52,8 +52,10 @@ measure_asymmetric_conditioning <- function(
   time_1s <- time_2s <- time_3s <-
     pc_1s <- pc_2s <- pc_3s <- rep(0, length(lx_seq))
   i <- 1
+  pb <- txtProgressBar(min = min(lx_seq), max = max(lx_seq), style = 3)
+  print("Calculating for all the lxs...")
   for (lx in lx_seq) {
-    print(lx)
+    setTxtProgressBar(pb, seed)
     pc_all <- calculate_all_pcs(
       pars = pars,
       age = age,
@@ -81,6 +83,7 @@ measure_asymmetric_conditioning <- function(
     }
     i <- i + 1
   }
+  close(pb)
   measure <- data.frame(
     lx = lx_seq,
     pc_1 = pc_1s,
