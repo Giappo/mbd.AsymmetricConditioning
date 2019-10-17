@@ -49,6 +49,7 @@ measure_asymmetric_conditioning <- function(
 
   time_1s <- time_2s <- time_3s <-
     pc_1s <- pc_2s <- pc_3s <- rep(0, length(lx_seq))
+  flush.console()
   i <- 1
   for (lx in lx_seq) {
     print(lx)
@@ -63,6 +64,20 @@ measure_asymmetric_conditioning <- function(
     time_1s[i] <- pc_all$time_1
     time_2s[i] <- pc_all$time_2
     time_3s[i] <- pc_all$time_3
+
+    if (saveit == TRUE) {
+      measure <- data.frame(
+        lx = lx_seq[1:i],
+        pc_1 = pc_1s[1:i],
+        pc_2 = pc_2s[1:i],
+        pc_3 = pc_3s[1:i],
+        t_1 = time_1s[1:i],
+        t_2 = time_2s[1:i],
+        t_3 = time_3s[1:i],
+        pc_sim = pc_sim[1:i]
+      )
+      save(measure, file = full_filename)
+    }
     i <- i + 1
   }
   measure <- data.frame(
