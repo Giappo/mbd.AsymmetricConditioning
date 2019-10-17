@@ -6,18 +6,19 @@ q <- 0.15
 pars <- c(lambda, mu, nu, q)
 n_0 <- 2
 age <- 10
+lx <- 140
+n_sims <- 1e4
 
-pcs_all <- all_pcs(
+pcs_all <- calculate_all_pcs(
   pars = pars,
   n_0 = n_0,
   age = age,
-  lx = 120,
-  seed = 1
+  lx = lx
 )
 
 pc_sim <- simulate_pc(
   pars,
   n_0,
   age,
-  n_test = 3e3
+  n_sims = n_sims
 )

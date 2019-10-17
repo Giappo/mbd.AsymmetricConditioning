@@ -97,7 +97,6 @@ cond_prob_rhs2_2 <- function(t, x, parms) {
 }
 
 #' Called by \link{mbd_loglik} if there is a conditioning != 0
-#' @inheritParams default_params_doc
 #' @return the conditional probability
 #' @author Giovanni Laudanno, Bart Haegeman
 #' @export
@@ -260,7 +259,6 @@ cond_prob_rhs2_3 <- function(t, x, parms) {
 }
 
 #' Called by \link{mbd_loglik} if there is a conditioning != 0
-#' @inheritParams default_params_doc
 #' @return the conditional probability
 #' @author Giovanni Laudanno, Bart Haegeman
 #' @export

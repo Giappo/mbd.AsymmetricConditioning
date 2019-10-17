@@ -1,13 +1,18 @@
-Package: mbd.conditioning.asymmetric
-Title: What the Package Does (One Line, Title Case)
+Package: mbd.AsymmetricConditioning
+Title: Study the asymmetric conditioning for mbd
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: What license it uses
+  person("Giovanni", "Laudanno", email = "glaudanno@gmail.com", role = c("aut", "cre"))
+Maintainer: Giovanni Laudanno <glaudanno@gmail.com>
+Description: Study the asymmetric conditioning for mbd.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.1.1
+Imports:
+  mbd,
+  ggplot2,
+  reshape2,
+  testit
+Suggests:
+  testthat (>= 2.1.0)
