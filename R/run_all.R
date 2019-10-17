@@ -4,7 +4,7 @@
 #' @author Giovanni Laudanno
 #' @export
 run_all <- function(
-  pars,
+  pars = c(0.2, 0.1, 1.5, 0.15),
   age = 10,
   lx_min = 20,
   lx_max = 50,

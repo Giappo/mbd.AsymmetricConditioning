@@ -19,6 +19,7 @@ measure_asymmetric_conditioning <- function(
     pars = pars,
     age = age
   )
+  flush.console()
 
   lx_seq0 <- seq(from = lx_min, to = lx_max, by = 10)
   if (file.exists(full_filename)) {
@@ -36,7 +37,8 @@ measure_asymmetric_conditioning <- function(
     }
   } else {
     # pc
-    n_sims <- 1e5
+    n_sims <- 1e4
+    print(paste0("Simulating ", n_sims, " trees..."))
     pc_sim <- simulate_pc(
       pars = pars,
       age = age,
@@ -49,7 +51,6 @@ measure_asymmetric_conditioning <- function(
 
   time_1s <- time_2s <- time_3s <-
     pc_1s <- pc_2s <- pc_3s <- rep(0, length(lx_seq))
-  flush.console()
   i <- 1
   for (lx in lx_seq) {
     print(lx)
