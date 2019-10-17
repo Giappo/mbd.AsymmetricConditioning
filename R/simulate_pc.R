@@ -6,7 +6,9 @@ simulate_pc <- function(
 ) {
   n_0 <- 2
   score <- 0
+  pb <- txtProgressBar(min = 1, max = n_sims, style = 3)
   for (seed in 1:n_sims) {
+    setTxtProgressBar(pb, seed)
     sim <- mbd::mbd_sim(
       pars = pars,
       n_0 = n_0,
@@ -23,5 +25,6 @@ simulate_pc <- function(
 
     score <- score + 1 * crown_survival
   }
+  close(pb)
   score / n_sims
 }
