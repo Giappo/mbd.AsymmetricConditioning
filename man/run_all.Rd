@@ -4,7 +4,8 @@
 \alias{run_all}
 \title{Run all}
 \usage{
-run_all(pars, age = 10, lx_min = 20, lx_max = 50, saveit = TRUE)
+run_all(pars = c(0.2, 0.1, 1.5, 0.15), age = 10, lx_min = 20,
+  lx_max = 50, saveit = TRUE)
 }
 \arguments{
 \item{pars}{parameters}

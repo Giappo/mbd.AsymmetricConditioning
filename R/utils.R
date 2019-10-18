@@ -57,3 +57,12 @@ get_full_filename <- function(
   full_filename <- file.path(parsetting_folder, filename)
   full_filename
 }
+
+#' @noRd
+fix_vec <- function(vec) {
+  vec2 <- signif(
+    vec,
+    digits = floor(abs(log10(.Machine$double.eps)))
+  )
+  vec2
+}

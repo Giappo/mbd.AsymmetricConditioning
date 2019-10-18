@@ -4,7 +4,7 @@
 \alias{cond_prob_matrices_2}
 \title{Auxilary function for cond_prob}
 \usage{
-cond_prob_matrices_2(q, lq)
+cond_prob_matrices_2(q, lx)
 }
 \description{
 Auxilary function for cond_prob

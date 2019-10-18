@@ -2,13 +2,9 @@
 
 export(calculate_all_pcs)
 export(cond_prob_2)
-export(cond_prob_3)
 export(cond_prob_matrices_2)
-export(cond_prob_matrices_3)
 export(cond_prob_rhs1_2)
-export(cond_prob_rhs1_3)
 export(cond_prob_rhs2_2)
-export(cond_prob_rhs2_3)
 export(measure_asymmetric_conditioning)
 export(plot_asymmetric_conditioning)
 export(run_all)
