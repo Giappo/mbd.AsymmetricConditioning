@@ -10,14 +10,16 @@ cond_prob_matrices_2 <- function(
 
   pq <- q #bart's translation
   nu_matrix <- matrix(0, nrow = lq, ncol = lq)
-  for (m1 in 0:(lq - 1)) {
-    for (a1 in 0:floor((m1 + 1) / 2)) { # nolint lintrbot is math's enemy
-      aux <- lchoose(m1, a1)
+  for (n1 in 0:(lq - 1)) {
+    for (m1 in n1:(lq - 1)) {
+      aux <- lchoose(n1, max(0, m1 - n1))
       aux <- exp(aux)
-      aux <- aux * pq ^ a1 * (1 - pq) ^ (m1 - a1)
-      nu_matrix[m1 + 1, m1 - a1 + 1] <- aux
+      aux <- aux * pq ^ (m1 - n1) * (1 - pq) ^ (2* n1 - m1)
+      nu_matrix[m1 + 1, n1 + 1] <- aux
     }
   }
+  rownames(nu_matrix) <- paste0("m1=", 0:(lq - 1))
+  colnames(nu_matrix) <- paste0("n1=", 0:(lq - 1))
 
   empty_pp <- matrix(0, nrow = (lq + 2), ncol = (lq + 2))
   m1 <- col(nu_matrix) - 1
@@ -55,23 +57,16 @@ cond_prob_rhs1_2 <- function(
   pp2 <- empty_pp
   pp2[mm, mm] <- pp
 
-  # dp1 <- (m1 - 1) * pp2[mm, mm_minus_one] +
-  #   (m2 - 1) * pp2[mm_minus_one, mm] -
-  #   (m1 + m2) * pp # ok
-  #
-  # dp2 <- (m1 + 1) * pp2[mm, mm_plus_one] +
-  #   (m2 + 1) * pp2[mm_plus_one, mm] -
-  #   (m1 + m2) * pp # ok
-
-  dp1 <- (m2 - 1) * pp2[mm, mm_minus_one] +
-    (m1 - 1) * pp2[mm_minus_one, mm] -
+  dp1 <- (m1 - 1) * pp2[mm, mm_minus_one] +
+    (m2 - 1) * pp2[mm_minus_one, mm] -
     (m1 + m2) * pp # ok
 
-  dp2 <- (m2 + 1) * pp2[mm, mm_plus_one] +
-    (m1 + 1) * pp2[mm_plus_one, mm] -
+  dp2 <- (m1 + 1) * pp2[mm, mm_plus_one] +
+    (m2 + 1) * pp2[mm_plus_one, mm] -
     (m1 + m2) * pp # ok
 
   dp3 <- nu_matrix %*% pp %*% t(nu_matrix) - pp # first cc is m1, t(cc) is m2
+  # dp3 <- t(nu_matrix) %*% pp %*% nu_matrix - pp # first cc is m1, t(cc) is m2
 
   dp <- lambda * dp1 + mu * dp2 + nu * dp3
 
@@ -150,6 +145,7 @@ cond_prob_2 <- function(
     tcrit = tt
   )[2, -1]
   p_m1_m2 <- matrix(ode_out, nrow = lq, ncol = lq)
+  print(paste0("sum is ", sum(p_m1_m2)))
 
   # compute conditioning probability
   pc <- 1 - p_m1_m2[1, 1] - p_m1_m2[2, 1] - p_m1_m2[1, 2]
