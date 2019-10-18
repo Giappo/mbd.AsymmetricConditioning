@@ -66,32 +66,13 @@ cond_prob_rhs1_2 <- function(
   dp1 <- (m1 - 1) * pp2[mm, mm_minus_one] +
     (m2 - 1) * pp2[mm_minus_one, mm] -
     (m1 + m2) * pp # ok
-  # testit::assert(sum(dp1) == 0)
-  # dp1[abs(dp1) < .Machine$double.eps * max(dp1)] <- 0
-  # dp1 <- fix_vec(dp1)
-  # if (!(abs(sum(dp1)) < .Machine$double.eps)) {
-  #   stop("dp1 does not sum up to 0!")
-  # }
 
   dp2 <- (m1 + 1) * pp2[mm, mm_plus_one] +
     (m2 + 1) * pp2[mm_plus_one, mm] -
     (m1 + m2) * pp # ok
-  # testit::assert(sum(dp2) == 0)
-  # dp2[abs(dp2) < .Machine$double.eps * max(dp2)] <- 0
-  # dp2 <- fix_vec(dp2)
-  # if (!(abs(sum(dp2)) < .Machine$double.eps)) {
-  #   stop("dp2 does not sum up to 0!")
-  # }
 
-  # dp3 <- nu_matrix %*% pp %*% t(nu_matrix) - pp # first cc is m1, t(cc) is m2
-  dp3 <- t(nu_matrix) %*% pp %*% nu_matrix - pp # first cc is m1, t(cc) is m2
-  # testit::assert(sum(dp3) == 0)
-  # dp3[abs(dp3) < .Machine$double.eps * max(dp3)] <- 0
-  # dp3 <- fix_vec(dp3)
-  # if (!(abs(sum(dp3)) < .Machine$double.eps)) {
-  #   stop("dp3 does not sum up to 0!")
-  # }
-
+  dp3 <- nu_matrix %*% pp %*% t(nu_matrix) - pp # first cc is m1, t(cc) is m2
+  # dp3 <- t(nu_matrix) %*% pp %*% nu_matrix - pp # first cc is m1, t(cc) is m2
 
   dp <- lambda * dp1 + mu * dp2 + nu * dp3
 
@@ -171,7 +152,7 @@ cond_prob_2 <- function(
   somma <- sum(p_m1_m2)
 
   # compute conditioning probability
-  pc <- 1 - p_m1_m2[1, 1] - p_m1_m2[2, 1] - p_m1_m2[1, 2]
+  pc <- 1 + p_m1_m2[1, 1] - sum(p_m1_m2[, 1]) - sum(p_m1_m2[1, ])
 
   if (!(pc >= 0 && pc <= 1)) {
     if (debug_mode != TRUE) {

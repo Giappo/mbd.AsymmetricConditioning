@@ -5,7 +5,7 @@ test_that("mu = 0", {
   brts <- c(3)
   cond <- 1
   n_0 <- 2
-  lx <- 20
+  lx <- 30
   test <- cond_prob_2(
     pars = pars,
     brts = brts,
@@ -83,7 +83,43 @@ test_that("bd", {
     testthat::expect_equal(
       test0,
       test1$pc,
-      tolerance = 1 - test1$p_sum
+      tolerance = max(1 - test1$p_sum, 10 * .Machine$double.eps)
+    )
+  }
+})
+
+test_that("p vs q", {
+  pars <- c(0.2, 0.15, 1.5, 0.12)
+  brts <- c(2)
+  cond <- 1
+  n_0 <- 2
+  lx <- 40
+  mu_vec <- seq(from = 0.05, to = pars[1], by = 0.05)
+  for (m in seq_along(mu_vec)) {
+    pars[2] <- mu_vec[m]
+    test0 <- mbd::cond_prob(
+      pars = pars,
+      brts = brts,
+      cond = cond,
+      n_0 = n_0,
+      lx = lx
+    )
+    test1 <- cond_prob_2(
+      pars = pars,
+      brts = brts,
+      cond = cond,
+      n_0 = n_0,
+      lx = lx
+    )
+    testthat::expect_equal(
+      test1$p_sum,
+      1,
+      tolerance = 1e-3
+    )
+    testthat::expect_equal(
+      test0,
+      test1$pc,
+      tolerance = max(1 - test1$p_sum, 10 * .Machine$double.eps)
     )
   }
 })
