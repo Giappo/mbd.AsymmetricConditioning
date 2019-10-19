@@ -123,3 +123,35 @@ test_that("p vs q", {
     )
   }
 })
+
+test_that("p vs sims", {
+  pars <- c(0.2, 0.15, 1.5, 0.15)
+  brts <- c(3)
+  cond <- 1
+  n_0 <- 2
+  lx <- 50
+  test_p <- cond_prob_2(
+    pars = pars,
+    brts = brts,
+    cond = cond,
+    n_0 = n_0,
+    lx = lx
+  )
+  testthat::expect_equal(
+    test_p$p_sum,
+    1,
+    tolerance = 1e-3
+  )
+  n_sims <- 1e5
+  test_sim <- simulate_pc(
+    pars = pars,
+    age = max(brts),
+    n_sims = n_sims,
+    saveit = TRUE
+  )
+  testthat::expect_equal(
+    test_sim,
+    test_p$pc,
+    tolerance = 1 / sqrt(n_sims)
+  )
+})

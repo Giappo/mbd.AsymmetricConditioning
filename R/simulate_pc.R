@@ -2,13 +2,27 @@
 simulate_pc <- function(
   pars,
   age,
-  n_sims = 1e4
+  n_sims = 1e4,
+  saveit = TRUE
 ) {
+
+  full_filename <- get_full_filename(
+    pars = pars,
+    age = age
+  )
+  delete_file <- FALSE
+  if (file.exists(full_filename)) {
+    load(full_filename)
+    if (measure$n_sims >= n_sims) {
+      return(measure$pc_sim)
+    } else {
+      delete_file <- TRUE
+    }
+  }
+
   n_0 <- 2
   score <- 0
-  pb <- txtProgressBar(min = 1, max = n_sims, style = 3)
   for (seed in 1:n_sims) {
-    setTxtProgressBar(pb, seed)
     sim <- mbd::mbd_sim(
       pars = pars,
       n_0 = n_0,
@@ -25,6 +39,19 @@ simulate_pc <- function(
 
     score <- score + 1 * crown_survival
   }
-  close(pb)
-  score / n_sims
+  pc_sim <- score / n_sims
+  if (saveit == TRUE) {
+    measure <- list(
+      pc_sim = pc_sim,
+      n_sims = n_sims
+    )
+    if (delete_file == TRUE) {
+      file.remove(full_filename)
+    }
+    save(
+      measure,
+      file = full_filename
+    )
+  }
+  pc_sim
 }
